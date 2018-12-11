@@ -7,7 +7,7 @@
 
             <div class="media-content">
               <p class="title is-4">John Smith</p>
-              <p class="subtitle is-6">@johnsmith</p>
+              <p class="subtitle is-6">080223344</p>
             </div>
           </div>
 
