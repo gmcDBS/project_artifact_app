@@ -6,17 +6,15 @@
           <div class="media">
 
             <div class="media-content">
-              <p class="title is-4">John Smith</p>
-              <p class="subtitle is-6">080223344</p>
+              <p class="title is-4">{{ customer.customerName }}</p>
+              <p class="subtitle is-6">{{ customer.customerId }}</p>
             </div>
           </div>
 
           <div class="content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-            <a href="#">#css</a> <a href="#">#responsive</a>
-            <br>
-            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+			{{ customer.customerContact }}
+			<br />
+            {{ customer.customerAddress }}
           </div>
         </div>
       </div>
@@ -27,12 +25,37 @@
 </template>
 
 <script>
-  import Repairs from './Repairs'
-  export default {
-    name: 'Customers',
-    components: {
-      Repairs
-    }
-  }
+	import axios from 'axios';
+	import Repairs from './Repairs'
+
+	export default {
+		name: 'Customers',
+		data() {
+			return {
+				url: "http://localhost:3005/",
+				customer: {}
+			}
+		},
+		created() {
+			this.fetchData()
+		},
+		components: {
+			Repairs
+		},
+		methods: {
+			fetchData() {
+				// 5c1ef64362d8552de8aa3977
+				axios.get(`${this.url}customer/${this.$route.params.id}`)
+					.then((resp) => {
+						this.customer = resp.data;
+						console.log(resp)
+						console.log(this.customer)
+					})
+					.catch((err) => {
+						console.log(err)
+					})
+			}
+		}
+	}
 
 </script>

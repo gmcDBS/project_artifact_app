@@ -14,7 +14,7 @@ export default new Router({
       component: Repairs,
     },
     {
-      path: '/customers',
+      path: '/customers/:id',
       name: 'Customers',
       component: Customers,
     },
