@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Repairs from '@/components/Repairs';
+import Customer from '@/components/Customer';
 import Customers from '@/components/Customers';
 import Analytics from '@/components/Analytics';
 
@@ -9,14 +9,14 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: '/repairs',
-      name: 'Repairs',
-      component: Repairs,
-    },
-    {
-      path: '/customers/:id',
+      path: '/customers',
       name: 'Customers',
       component: Customers,
+    },
+    {
+      path: '/customer/:id',
+      name: 'Customer',
+      component: Customer,
     },
     {
       path: '/analytics',

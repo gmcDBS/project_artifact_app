@@ -3,7 +3,7 @@
       <div class="tabs">
         <ul>
           <li>
-            <router-link to="/repairs">Customers</router-link>        
+            <router-link to="/customers">Customers</router-link>        
           </li>
           <li>
 <!--            <router-link to="/customers">Customer</router-link>-->
@@ -18,12 +18,6 @@
             <router-link to="/analytics">New Device</router-link>
           </li>
         </ul>
-<!--    <router-link :to="{ name: 'Hello' }">Home</router-link>-->
-<!--    <router-link to="/repairs">Repairs</router-link>-->
-<!--    <router-link to="/repair/?id">Repair</router-link>-->
-<!--    <router-link to="/customers">Customers</router-link>-->
-<!--    <router-link to="/user/?id">User</router-link>-->
-<!--    <router-link to="/analytics">Analytics</router-link>-->
     </div>
     
     <router-view></router-view>
