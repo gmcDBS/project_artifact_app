@@ -25,13 +25,7 @@
 
 <script>
 	import axios from 'axios';
-
-	//	"customerId": "C117",
-	//    "customerName": "Scott Lang",
-	//    "customerAddress": "Ex-con",
-	//    "customerContact": "slang@email.com",
-	//    "repairs": [] store empty arr
-
+	
 	export default {
 		name: 'NewCustomer',
 		data() {

@@ -41,14 +41,29 @@
       <tbody v-for="repair in customer.repairs" >
         <tr>
           <td>{{repair.repairId}}</td>
-          <td>
-            {{repair.device.deviceBrand + " "+ repair.device.deviceModel}}
+          <td>  
+			<div class="select" >
+				<select  >
+				  <option v-for="device in devices" :value="device._id">{{device.deviceBrand + " " + device.deviceModel}}</option>
+				</select>
+			</div>
           </td>
 		  <td>
-            {{repair.repairType}}
+<!--            {{repair.repairType}}-->
+			<div class="control">
+    			<input class="input" type="text" placeholder="repair type" />
+  			</div>
+			
           </td>
           <td>
-            {{repair.repairStatus}}
+<!--            {{repair.repairStatus}}-->
+			  <div class="select" >
+			  	<select>
+					<option value="Queue" >Queue</option>
+					<option value="In Progress" >In Progress</option>
+					<option value="Done" >Done</option>
+				</select>				
+			  </div>
           </td>
           <td>
             {{repair.createdAt}}
@@ -69,28 +84,48 @@
 		data() {
 			return {
 				url: "http://localhost:3005/",
-				customer: {}
+				customer: [],
+				devices: []
 			}
 		},
 		created() {
-			this.fetchData()
+			this.fetchCustomerData();
+			this.fetchDevicesData();
 		},
 		watch: {
 			'$route': 'fetchData'
 		},
 		methods: {
-			fetchData() {
-				// 5c1ef64362d8552de8aa3977
+			fetchCustomerData() {
 				axios.get(`${this.url}customer/${this.$route.params.id}`)
 					.then((resp) => {
 						this.customer = resp.data;
-						console.log(resp)
-						console.log(this.customer)
+						
 					})
 					.catch((err) => {
 						console.log(err)
 					})
+			},
+			fetchDevicesData() {
+				axios.get(`${this.url}device`)
+					.then((resp) => {
+						this.devices = resp.data;
+						console.log(this.devices)
+					})
+					.catch((err) => {
+						console.log(err)
+					})
+			},
+			postRepair() {
+				
+			},
+			putRepair() {
+				
+			},
+			deleteRepair() {
+				
 			}
+			
 		}
 	}
 
