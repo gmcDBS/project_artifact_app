@@ -20,13 +20,49 @@
       </div>
     </div>
     <br />
-    <Repairs />
+	<div id="table-utils" >
+    	<button type="button" class="button is-primary" >Add Repair</button>
+    </div>
+    <table class="table" >
+      <thead>
+        <tr>
+          <th>ID</th>
+		  <th>Device</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Left in</th>
+          <th></th>
+		  <th></th>
+        </tr>
+      </thead>
+      <tfoot>
+        
+      </tfoot>
+      <tbody v-for="repair in customer.repairs" >
+        <tr>
+          <td>{{repair.repairId}}</td>
+          <td>
+            {{repair.device.deviceBrand + " "+ repair.device.deviceModel}}
+          </td>
+		  <td>
+            {{repair.repairType}}
+          </td>
+          <td>
+            {{repair.repairStatus}}
+          </td>
+          <td>
+            {{repair.createdAt}}
+          </td>
+          <td><button type="button" class="button is-primary" >Update</button></td>
+		  <td><button type="button" class="button is-danger" >Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
 	import axios from 'axios';
-	import Repairs from './Repairs'
 
 	export default {
 		name: 'Customer',
@@ -38,9 +74,6 @@
 		},
 		created() {
 			this.fetchData()
-		},
-		components: {
-			Repairs
 		},
 		watch: {
 			'$route': 'fetchData'
@@ -62,3 +95,18 @@
 	}
 
 </script>
+
+<style scoped>
+	input {
+		width: 25%;
+	}
+
+	table {
+		margin: 0px auto;
+	}
+
+	#table-utils {
+		text-align: center;
+	}
+
+</style>

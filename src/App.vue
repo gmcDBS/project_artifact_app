@@ -12,10 +12,10 @@
             <router-link to="/analytics">Analytics</router-link>
           </li>
 			 <li>
-            <router-link to="/analytics">New Customer</router-link>
+            <router-link to="/newCustomer">New Customer</router-link>
           </li>
 			 <li>
-            <router-link to="/analytics">New Device</router-link>
+            <router-link to="/newDevice">New Device</router-link>
           </li>
         </ul>
     </div>
