@@ -7,27 +7,33 @@
     <table class="table" >
       <thead>
         <tr>
-          <th>Reference ID</th>
-          <th>Type</th>
-          <th>Status</th>
-          <th>Left in</th>
-          <th></th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Contact</th>
+          <th># of Repairs</th>
+          <th>Joined</th>
+		  <th></th>
         </tr>
       </thead>
       <tfoot>
         
       </tfoot>
-      <tbody v-for="(repair, key) in repairs" >
+      <tbody v-for="(customer, key) in customers" >
         <tr>
-          <th>{{key+100}}</th>
           <td>
-            {{repair.repairType}}
+			  <router-link :to="{ name: `Customers`, params: { id: customer._id }}">{{customer.customerId}}</router-link>
+		  </td>
+          <td>
+            {{customer.customerName}}
           </td>
           <td>
-            {{repair.repairStatus}}
+            {{customer.customerContact}}
+          </td>
+			<td>
+            {{customer.repairs.length}}
           </td>
           <td>
-            {{repair.createdAt}}
+            {{customer.createdAt}}
           </td>
           <td><button type="button" class="button is-primary" >update</button></td>
         </tr>
@@ -38,13 +44,13 @@
 
 <script>
 	import axios from 'axios';
-	
+
 	export default {
 		name: 'Repairs',
 		data: function() {
 			return {
 				url: "http://localhost:3005/",
-				repairs: {},
+				customers: {},
 				items: [{
 						rType: 'cracked screen',
 						rStatus: 'In Progress',
@@ -74,11 +80,11 @@
 		methods: {
 			fetchData() {
 				// 5c1ef64362d8552de8aa3977
-				axios.get(`${this.url}repair`)
+				axios.get(`${this.url}customer`)
 					.then((resp) => {
-						this.repairs = resp.data;
+						this.customers = resp.data;
 						console.log(resp)
-						console.log(this.repairs)
+						console.log(this.customers)
 					})
 					.catch((err) => {
 						console.log(err)

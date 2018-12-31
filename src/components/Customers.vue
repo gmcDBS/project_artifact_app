@@ -42,6 +42,9 @@
 		components: {
 			Repairs
 		},
+		watch: {
+			'$route': 'fetchData'
+		},
 		methods: {
 			fetchData() {
 				// 5c1ef64362d8552de8aa3977
