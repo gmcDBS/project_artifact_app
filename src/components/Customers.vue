@@ -33,7 +33,7 @@
             {{customer.repairs.length}}
           </td>
           <td>
-            {{customer.createdAt}}
+            {{customer.createdAt.substring(0, 10).split("-").reverse().join("-")}}
           </td>
 <!--          <td><button type="button" class="button is-primary" >update</button></td>-->
         </tr>

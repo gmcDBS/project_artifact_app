@@ -21,7 +21,7 @@
     </div>
     <br />
 	<div id="table-utils" >
-    	<button type="button" class="button is-primary" >Add Repair</button>
+    	<button type="button" class="button is-primary" @click="postRepair" >Add Repair</button>
     </div>
     <table class="table" >
       <thead>
@@ -43,22 +43,22 @@
           <td>{{repair.repairId}}</td>
           <td>  
 			<div class="select" >
-				<select  >
+				<select class="devices" v-model="repair.device._id" >
 				  <option v-for="device in devices" :value="device._id">{{device.deviceBrand + " " + device.deviceModel}}</option>
 				</select>
 			</div>
           </td>
 		  <td>
-<!--            {{repair.repairType}}-->
+<!--            {{repair.repairType}}  v-model="repair.repairType"-->
 			<div class="control">
-    			<input class="input" type="text" placeholder="repair type" />
+    			<input class="input" type="text" placeholder="repair type"  v-model="repair.repairType" />
   			</div>
 			
           </td>
           <td>
 <!--            {{repair.repairStatus}}-->
 			  <div class="select" >
-			  	<select>
+			  	<select v-model="repair.repairStatus" >
 					<option value="Queue" >Queue</option>
 					<option value="In Progress" >In Progress</option>
 					<option value="Done" >Done</option>
@@ -66,10 +66,10 @@
 			  </div>
           </td>
           <td>
-            {{repair.createdAt}}
+            {{repair.createdAt.substring(0, 10).split("-").reverse().join("-")}}
           </td>
-          <td><button type="button" class="button is-primary" >Update</button></td>
-		  <td><button type="button" class="button is-danger" >Delete</button></td>
+          <td><button type="button" class="button is-primary" @click="putRepair(repair._id)" >Update</button></td>
+		  <td><button type="button" class="button is-danger"  @click="deleteRepair(repair._id)" >Delete</button></td>
         </tr>
       </tbody>
     </table>
@@ -89,18 +89,21 @@
 			}
 		},
 		created() {
-			this.fetchCustomerData();
-			this.fetchDevicesData();
+			this.fetchTableData();
 		},
 		watch: {
 			'$route': 'fetchData'
 		},
 		methods: {
+			fetchTableData() {
+				this.fetchCustomerData();
+				this.fetchDevicesData();
+			},
 			fetchCustomerData() {
 				axios.get(`${this.url}customer/${this.$route.params.id}`)
 					.then((resp) => {
 						this.customer = resp.data;
-						
+						console.log(resp.data)
 					})
 					.catch((err) => {
 						console.log(err)
@@ -110,32 +113,93 @@
 				axios.get(`${this.url}device`)
 					.then((resp) => {
 						this.devices = resp.data;
-						console.log(this.devices)
+						console.log(this.devices[0])
 					})
 					.catch((err) => {
 						console.log(err)
 					})
 			},
 			postRepair() {
-				
+				axios.post(`${this.url}repair`, {
+						"repairId": `R${this.randInt(100,10000)}`,
+						"repairType": "",
+						"repairStatus": "Queue",
+						"device": "5c1ef56d62d8552de8aa3971"
+					})
+					.then((resp) => {
+						this.putCustomer(resp.data._id);
+					})
+					.catch((err) => {
+						console.log(err)
+					})
 			},
-			putRepair() {
-				
+			putCustomer(newRepair) {
+				let repairs = this.customer.repairs.map(r => r._id);
+				repairs.push(newRepair);
+				axios.put(`${this.url}customer/${this.$route.params.id}`, {
+						"customerId": this.customer.customerId,
+						"customerName": this.customer.customerName,
+						"customerAddress": this.customer.customerAddress,
+						"customerContact": this.customer.customerContact,
+						"repairs": repairs
+					})
+					.then((resp) => {
+						this.fetchTableData();
+					})
+					.catch((err) => {
+						console.log(err)
+					})
 			},
-			deleteRepair() {
-				
+			testPut(repairId) {
+				let repair = this.customer.repairs.filter(r => repairId === r._id);
+				let index = this.customer.repairs.findIndex((r) => {
+					return r._id === repairId;
+				});
+				repair = repair[0];
+				console.log(this.customer.repairs)
+				console.log(index)
+			},
+			putRepair(repairId) {
+				let repair = this.customer.repairs.filter(r => repairId === r._id);
+				let index = this.customer.repairs.findIndex((r) => {
+					return r._id === repairId;
+				});
+				repair = repair[0];
+				axios.put(`${this.url}repair/${repairId}`, {
+						"repairId": repair.repairId,
+						"repairType": repair.repairType,
+						"repairStatus": repair.repairStatus,
+						"device": document.querySelectorAll(".devices")[index].value
+					})
+					.then((resp) => {
+						console.log("hh")
+						console.log(resp.data);
+						this.fetchTableData();
+					})
+					.catch((err) => {
+						console.log(err)
+					})
+			},
+			deleteRepair(repairId) {
+				axios.delete(`${this.url}repair/${repairId}`)
+					.then((resp) => {
+						this.fetchTableData();
+					})
+					.catch((err) => {
+						console.log(err)
+					})
+			},
+
+			randInt(min, max) {
+				return Math.floor(Math.random() * (max - min + 1) + min);
 			}
-			
+
 		}
 	}
 
 </script>
 
 <style scoped>
-	input {
-		width: 25%;
-	}
-
 	table {
 		margin: 0px auto;
 	}
